@@ -1,0 +1,25 @@
+{
+    "version": 2,
+    "env": {
+      "JWT_SECRET": "@jwt_secret",
+      "PORT": "@port"
+    },
+    "builds": [
+      {
+        "src": "api.js",
+        "use": "@vercel/node",
+        "config": {
+          "nodeVersion": "14.x"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/generate-token",
+        "methods": ["POST"],
+        "dest": "/api.js"
+      }
+    ],
+    "regions": ["all"]
+  }
+  
