@@ -15,6 +15,7 @@ const serviceAccount = {
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/franlok%40lucky-adviser-404007.iam.gserviceaccount.com",
   "universe_domain": "googleapis.com"
 };
+function generateJWT(user, role) {
 
 // Define JWT payload
 const payload = {
@@ -22,8 +23,9 @@ const payload = {
   scope: 'https://www.googleapis.com/auth/cloud-platform', // Scope claim
   aud: 'https://oauth2.googleapis.com/token', // Audience claim
   exp: Math.floor(Date.now() / 1000) + 3600, // Expiration time
-  iat: Math.floor(Date.now() / 1000) // Issued at time
-
+  iat: Math.floor(Date.now() / 1000), // Issued at time
+  user, // Add user to the payload
+  role, 
 
 };
 
@@ -37,8 +39,9 @@ const signOptions = {
 };
 
 // Generate the JWT
-const token = jwt.sign(payload, serviceAccount.private_key, signOptions);
+return jwt.sign(payload, serviceAccount.private_key, { algorithm: 'RS256' });
+}
+module.exports = { generateJWT };
 
-console.log(token);
-
-console.log(Math.floor(Date.now() / 1000));
+//console.log(token);
+//console.log(Math.floor(Date.now() / 1000));

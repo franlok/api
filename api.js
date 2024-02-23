@@ -9,9 +9,15 @@ app.use(express.json());
 
 app.post('/generate-token', (req, res) => {
   const { user, role } = req.body;
-  const token = generateJWT(user, role);
-  res.json({ token });
+  try {
+    const token = generateJWT(user, role);
+    res.json({ token });
+  } catch (error) {
+    console.error('Error generating JWT:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
